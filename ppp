@@ -1,0 +1,73 @@
+from pygame import *
+
+pygame.init()
+
+window = display.set_mode((700, 500))
+display.set_caption('пинпонг')
+
+font.init()
+font2=font.Font(None,36)
+
+
+
+class GameSprite(sprite.Sprite):
+    def __init__(self,player_image,player_x,player_y, size_x, size_y, player_speed):
+        sprite.Sprite.__init__(self)
+        self.image =  transform.scale(image.load(player_image), (size_x, size_y))
+        self.speed = player_speed
+        self.rect = self.image.get_rect()
+        self.rect.x = player_x
+        self.rect.y = player_y
+    
+    def reset(self):
+        window.blit(self.image, (self.rect.x, self.rect.y))
+    def colliderect(self, rect) :
+        return self.rect.colliderect(rect)
+
+ 
+class Player1(GameSprite):
+    def update(self):   
+        keys_pressed = key.get_pressed()
+        if keys_pressed[K_W] and self.rect.y> 5:
+            self.rect.y -= self.speed
+        if keys_pressed[K_S] and self.rect.y < 500:
+            self.rect.y += self.speed
+class Player2(GameSprite):
+    def update(self):
+        keys_pressed = key.get_pressed()
+        if keys_pressed[K_UP] and self.rect.y > 5:
+            self.rect.y -= self.speed
+        if keys_pressed[K_DOWN] and self.rect.y < 500:
+            self.rect.y += self.speed
+sp_x=10
+sp_y=10
+pl1=Player1('DODELAT',50,250,30,100,10)
+pl2=Player2('DODELAT',650,250,30,100,10)
+
+class Ball(GameSprite):
+    def update(self):
+        if self.rect.y <5 or self.rect.y>500:
+            sp_y*=-1
+        if self.rect.colliderect(pl1) or self.rect.colliderect(pl2):
+            sp_x*=-1
+        self.rect.y+=sp_y
+        self.rect.x+=sp_x
+ball= Ball('ball.png',70,80,50,50,10)
+clock = time.Clock()
+game=True
+while game:
+    pl1.reset()
+    pl1.update()
+    pl2.reset()
+    pl2.update()
+    ball.reset()
+    ball.update()
+    
+    if ball.rect.x<0 or ball.rect.x>700:
+        game=False
+    for e in event.get():
+        if e.type == QUIT:
+            game = False
+            
+    display.update()
+    clock.tick(40)     
