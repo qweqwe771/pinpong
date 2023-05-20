@@ -6,7 +6,8 @@ background = transform.scale(image.load('background.jpg'),(700, 500))
 
 font.init()
 font2=font.Font(None,36)
-
+lose1 = font2.render('1 игрок проиграл',True,(180,0,0))
+lose2 = font2.render('2 игрок проиграл',True,(180,0,0))
 
 
 class GameSprite(sprite.Sprite):
@@ -44,7 +45,7 @@ pl2=Player2('DODELAT.png',650,250,30,180,10)
 
 class Ball(GameSprite):
     def update(self):
-        if self.rect.y <50 or self.rect.y>450:
+        if self.rect.y <0 or self.rect.y>450:
             global sp_y
             sp_y=sp_y*(-1)
             
@@ -57,17 +58,25 @@ class Ball(GameSprite):
 ball= Ball('ball.png.png',70,80,50,50,10)
 clock = time.Clock()
 game=True
+finish=True
 while game:
     window.blit(background,(0,0))
+    if finish:
+        pl1.update()
+        pl2.update()
+        ball.update()
     pl1.reset()
-    pl1.update()
-    pl2.reset()
-    pl2.update()
+    pl2.reset()    
     ball.reset()
-    ball.update()
-    
-    if ball.rect.x<0 or ball.rect.x>700:
-        game=False
+
+    if ball.rect.x<0 :
+        finish = False
+        window.blit(lose1,(300,250))
+
+    if ball.rect.x>650 :
+        finish = False
+        window.blit(lose2,(300,250))
+
     for e in event.get():
         if e.type == QUIT:
             game = False
