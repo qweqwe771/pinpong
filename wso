@@ -1,9 +1,8 @@
 from pygame import *
 
-
-
 window = display.set_mode((700, 500))
 display.set_caption('пинпонг')
+background = transform.scale(image.load('background.jpg'),(700, 500))
 
 font.init()
 font2=font.Font(None,36)
@@ -24,38 +23,42 @@ class GameSprite(sprite.Sprite):
     def colliderect(self, rect) :
         return self.rect.colliderect(rect)
 
- 
 class Player1(GameSprite):
     def update(self):   
         keys_pressed = key.get_pressed()
-        if keys_pressed[K_W] and self.rect.y> 5:
+        if keys_pressed[K_w] and self.rect.y> -35:
             self.rect.y -= self.speed
-        if keys_pressed[K_S] and self.rect.y < 500:
+        if keys_pressed[K_s] and self.rect.y < 350:
             self.rect.y += self.speed
 class Player2(GameSprite):
     def update(self):
         keys_pressed = key.get_pressed()
-        if keys_pressed[K_UP] and self.rect.y > 5:
+        if keys_pressed[K_UP] and self.rect.y > -35:
             self.rect.y -= self.speed
-        if keys_pressed[K_DOWN] and self.rect.y < 500:
+        if keys_pressed[K_DOWN] and self.rect.y < 350:
             self.rect.y += self.speed
-sp_x=10
-sp_y=10
-pl1=Player1('DODELAT',50,250,30,100,10)
-pl2=Player2('DODELAT',650,250,30,100,10)
+sp_x=4
+sp_y=4
+pl1=Player1('DODELAT.png',50,250,30,180,10)
+pl2=Player2('DODELAT.png',650,250,30,180,10)
 
 class Ball(GameSprite):
     def update(self):
-        if self.rect.y <5 or self.rect.y>500:
-            sp_y*=-1
+        if self.rect.y <50 or self.rect.y>450:
+            global sp_y
+            sp_y=sp_y*(-1)
+            
         if self.rect.colliderect(pl1) or self.rect.colliderect(pl2):
-            sp_x*=-1
+            global sp_x
+            sp_x=sp_x*(-1)
+            
         self.rect.y+=sp_y
         self.rect.x+=sp_x
-ball= Ball('ball.png',70,80,50,50,10)
+ball= Ball('ball.png.png',70,80,50,50,10)
 clock = time.Clock()
 game=True
 while game:
+    window.blit(background,(0,0))
     pl1.reset()
     pl1.update()
     pl2.reset()
@@ -70,4 +73,4 @@ while game:
             game = False
             
     display.update()
-    clock.tick(40)     
+    clock.tick(60)     
