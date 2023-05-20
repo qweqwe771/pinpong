@@ -38,10 +38,10 @@ class Player2(GameSprite):
             self.rect.y -= self.speed
         if keys_pressed[K_DOWN] and self.rect.y < 350:
             self.rect.y += self.speed
-sp_x=4
-sp_y=4
-pl1=Player1('DODELAT.png',50,150,30,180,10)
-pl2=Player2('DODELAT.png',650,300,30,180,10)
+sp_x=6
+sp_y=6
+pl1=Player1('DODELAT.png',50,150,10,179,10)
+pl2=Player2('DODELAT.png',650,300,10,179,10)
 
 class Ball(GameSprite):
     def update(self):
@@ -84,6 +84,7 @@ while game:
             finish=True
             ball.rect.x=300
             ball.rect.y=200
+            pause=False
 
     
     if ball.rect.x<0 :
