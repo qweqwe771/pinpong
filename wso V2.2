@@ -1,5 +1,5 @@
 from pygame import *
-
+from time import sleep
 window = display.set_mode((700, 500))
 display.set_caption('пинпонг')
 background = transform.scale(image.load('background.jpg'),(700, 500))
@@ -74,8 +74,10 @@ while game:
     if keys_pressed[K_SPACE]:
         if pause:
             pause=False
+            sleep(0.2)
         else:
             pause=True
+            sleep(0.2)
 
 
     
