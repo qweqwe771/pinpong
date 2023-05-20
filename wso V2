@@ -40,8 +40,8 @@ class Player2(GameSprite):
             self.rect.y += self.speed
 sp_x=4
 sp_y=4
-pl1=Player1('DODELAT.png',50,250,30,180,10)
-pl2=Player2('DODELAT.png',650,250,30,180,10)
+pl1=Player1('DODELAT.png',50,150,30,180,10)
+pl2=Player2('DODELAT.png',650,300,30,180,10)
 
 class Ball(GameSprite):
     def update(self):
@@ -55,13 +55,14 @@ class Ball(GameSprite):
             
         self.rect.y+=sp_y
         self.rect.x+=sp_x
-ball= Ball('ball.png.png',70,80,50,50,10)
+ball= Ball('ball.png.png',100,80,50,50,10)
 clock = time.Clock()
 game=True
 finish=True
+pause=True
 while game:
     window.blit(background,(0,0))
-    if finish:
+    if finish and pause:
         pl1.update()
         pl2.update()
         ball.update()
@@ -69,6 +70,15 @@ while game:
     pl2.reset()    
     ball.reset()
 
+    keys_pressed = key.get_pressed()
+    if keys_pressed[K_SPACE]:
+        if pause:
+            pause=False
+        else:
+            pause=True
+
+
+    
     if ball.rect.x<0 :
         finish = False
         window.blit(lose1,(300,250))
